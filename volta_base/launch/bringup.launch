@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="intel_D435i_camera" default="false"/>
+    <arg name="orbbec_astra_pro_camera" default="false"/>
+    <arg name="hokuyo_ust10lx_lidar" default="false"/>
+    <arg name="rplidar_a3" default="true"/>
+
+    <group>
+
+        <arg name="use_teleop" default="true"/>
+        <arg name="wit_imu" default="false"/>
+        <arg name="um7_imu" default="false"/>
+        <arg name="hwt905_ros" default="false"/>
+
+        <!-- RGBD Camera TF calibration Start-->
+
+        <!-- For Camera to Marker, tvec, rvec are - 
+        T-vec: [[[0.03457077 0.05461842 1.43501583]]]
+        R-vec: [[[ 2.25534025 -0.00668078 -0.00469819]]]
+        For Marker to Camera, calculated inverses are - 
+        Inv-T-vec: [-0.03263134 -1.07706378  0.94990397]
+        Inv-R-vec: [-2.25534025  0.00668078  0.00469819]  -->
+
+        <!-- For Camera to Marker, tvec, rvec are - 
+        T-vec: [[[0.02702905 0.25727328 1.51718989]]]
+        R-vec: [[[ 2.09181645 -0.02481231  0.00827533]]]
+        For Marker to Camera, calculated inverses are - 
+        Inv-T-vec: [-0.04792978 -1.18692695  0.97861761]
+        Inv-R-vec: [-2.09181645  0.02481231 -0.00827533] -->
+        <!-- 
+
+        For Camera to Marker, tvec, rvec are - 
+        T-vec: [[[-0.08363366 -0.01804223  1.49157931]]]
+        R-vec: [[[ 2.25524488  0.02075586 -0.02482447]]]
+        For Marker to Camera, calculated inverses are - 
+        Inv-T-vec: [ 0.12115172 -1.16448178  0.92813437]
+        Inv-R-vec: [-2.25524488 -0.02075586  0.02482447] -->
+
+        <!-- For Camera to Marker, tvec, rvec are - 
+        T-vec: [[[-0.02331476  0.13884027  1.23432422]]]
+        R-vec: [[[ 2.26535657 -0.02541137  0.0099553 ]]]
+        For Marker to Camera, calculated inverses are - 
+        Inv-T-vec: [ 0.00586297 -0.85973065  0.89677496]
+        Inv-R-vec: [-2.26535657  0.02541137 -0.0099553 ] -->
+
+        <!-- For Camera to Marker, tvec, rvec are - 
+        T-vec: [[[-0.0364202  -0.01314523  1.43145919]]]
+        R-vec: [[[ 2.2561289  -0.02898693  0.01544932]]]
+        For Marker to Camera, calculated inverses are - 
+        Inv-T-vec: [ 0.00596217 -1.11698426  0.89603864]
+        Inv-R-vec: [-2.2561289   0.02898693 -0.01544932] -->
+
+
+
+	    <!-- <node pkg="tf" type="static_transform_publisher" name="lidar_to_camera_back" args="-0.35 0 1.12 3.08 0 0 lidar camera_aligned_depth_to_color_frame 10" /> -->
+        
+        <!-- Camera back camera2-->
+        <!-- <node pkg="tf" type="static_transform_publisher" name="marker_to_interm2" args="0.03563348 -3.05185493  1.16084461 -0.00706765228 -0.000909295291 -1.495821 marker2 intermediate_camera_frame2  10" />
+        <node pkg="tf" type="static_transform_publisher" name="interm2_to_inter2" args="0 0  0 0  0 1.54  intermediate_camera_frame2  inter2 10" />
+        <node pkg="tf" type="static_transform_publisher" name="inter2_to_camera_back" args="0 0  0 1.54  0 0  inter2  camera2_aligned_depth_to_color_frame 10" />
+        <node pkg="tf" type="static_transform_publisher" name="lidar_to_marker2" args="-3.40 0.0 -0.16 1.54 0 0  lidar marker2 10" /> -->
+        
+        <!-- Camera infront camera1-->
+        <node pkg="tf" type="static_transform_publisher" name="marker_to_interm1" args="0.00596217 -1.11698426  0.89603864 -0.01544932 0.02898693 -2.2561289 marker1 intermediate_camera_frame1  10" />
+        <node pkg="tf" type="static_transform_publisher" name="interm1_to_inter1" args="0 0  0 0  0 1.54  intermediate_camera_frame1  inter1 10" />
+        <node pkg="tf" type="static_transform_publisher" name="inter1_to_camera_front" args="0 0  0 1.54  0 0  inter1  camera_aligned_depth_to_color_frame 10" />
+        <node pkg="tf" type="static_transform_publisher" name="lidar_to_marker1" args="0.90 0.0 -0.16 -1.54 0 0  lidar marker1 10" />
+        
+        
+        
+        <!-- <node pkg="tf" type="static_transform_publisher" name="marker_to_inter" args="0.12115172 -1.16448178  0.91813437 0.02482447 -0.02075586 -2.25524488 marker intermediate_camera_frame  10" />
+        <node pkg="tf" type="static_transform_publisher" name="inter_to_inter1" args="0 0  0 0  0 1.54  intermediate_camera_frame  inter1 10" />
+        <node pkg="tf" type="static_transform_publisher" name="inter1_to_camera" args="0 0  0 1.54  0 0  inter1  camera_aligned_depth_to_color_frame 10" />
+        <node pkg="tf" type="static_transform_publisher" name="lidar_to_marker" args="0.91 0.115 -0.16 -1.54 0 0  lidar marker 10" /> -->
+       
+        <!-- RGBD Camera TF calibration End -->
+
+        <node name="volta_hardware_node" pkg="volta_hardware" type="volta_hardware_node">
+        </node>
+        <node name="serial_node" pkg="volta_hardware" type="serial_node">
+        </node>
+
+        <arg name="model" default="$(find volta_description)/urdf/volta.xacro"/>
+        <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model) rplidar_a3_enabled:=$(arg rplidar_a3)  hokuyo_ust_10lx_enabled:=$(arg hokuyo_ust10lx_lidar) intel_d435i_enabled:=$(arg intel_D435i_camera) orbbec_astra_pro_enabled:=$(arg orbbec_astra_pro_camera)"/>
+
+	    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+
+        <include file="$(find volta_control)/launch/control.launch" />
+
+        <group if="$(arg use_teleop)">
+            <include file="$(find volta_teleoperator)/launch/teleoperator.launch" />
+        </group>
+
+        <!-- Wit IMU Driver -->
+        <group if="$(arg wit_imu)">
+            <node pkg="wit_imu_driver" type="wit_imu_driver" name="wit_imu_driver">
+                <param name="device" value="/dev/serial/by-id/usb-1a86_USB_Serial-if00-port0"/>
+                <param name="frame_id" value="/imu"/>
+                <remap from="data_raw" to="imu/data"/>
+                <remap from="mag" to="imu/mag"/>
+            </node>
+        </group>
+
+        <!-- UM7 IMU Driver -->
+        <group ns="um7" if="$(arg um7_imu)">
+            <node pkg="um7" type="um7_driver" name="imu_driver">
+                <param name="port" value="/dev/ttyUSB1"/> <!-- Change to by-id -->
+                <param name="mag_updates" value="false"/>
+                <param name="tf_ned_to_enu" value="false"/>
+                <param name="frame_id" value="imu"/>
+                <remap from="/um7/imu/data" to="/imu/data" />
+            </node>
+        </group>
+
+        <!-- HWT905 IMU Driver -->
+       	<group if="$(arg hwt905_ros)">
+    		<node pkg="hwt905_ros" type="hwt905_ros_node" name="hwt905_ros_node" output="screen" >
+		        <param name="uart_port" type="string" value="/dev/ttyUSB1" />
+		        <param name="baud_rate" type="int" value="115200" />
+		        <param name="frame_id" type="string" value="imu" />
+     		</node>
+     	</group>
+
+        <!--Start the sensor Node-->
+        <!--<include file="$(find volta_base)/launch/sensors.launch"/>-->
+        <!-- Node for Odometry computation -->
+        <node name="odompublisher" pkg="compute_odom" type="odometry_publisher.py" output="screen"/>
+        <!-- <include file="$(find volta_localization)/launch/localization.launch"/> -->
+
+    </group>
+</launch>

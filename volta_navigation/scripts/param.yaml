@@ -1,0 +1,32 @@
+
+x_max : 1.08
+x_min : -1.12
+y_max : 0.99
+y_min : -1.06
+
+
+x_max_offset : 0.3
+x_min_offset : 0.2
+y_max_offset : 0.2
+y_min_offset : 0.2
+
+corner_factor : 0.5
+
+lidar_safe_dist : 0.30
+
+lidar_safe_dist_rotate : 0.15
+
+shift_goal : 0.2
+
+front_angle : 180
+clearance : 55
+clearance_yaw: 20
+
+
+approach_speed : 0.08
+
+retreat_speed :  0.15
+
+
+
+

@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+    <rosparam command="load" file="$(find autonomy)/config/start_latlong.yaml" />
+    <include file="$(find volta_navigation)/launch/navigation.launch"/>
+    <node name="autonomy" pkg="autonomy" type="send_goals_ui_v1.py" output="screen" />
+</launch>

@@ -1,0 +1,4 @@
+teleop_node:
+  max_linear_velocity: 0.8
+  max_angular_velocity: 0.8
+
