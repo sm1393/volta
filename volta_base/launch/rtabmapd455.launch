@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<launch>
+
+    <remap from="/camera/color/camera_info" to="/camera/rgb/camera_info" />
+    <remap from="/camera/color/image_raw" to="/camera/rgb/image_rect_color" />
+    <remap from="/camera/depth/image_rect_raw" to="/camera/depth_registered/image_raw" />
+
+    <include file="$(find realsense2_camera)/launch/rs_camera.launch">
+        <!-- <arg name="linear_accel_cov" value="1.0"/>
+        <arg name="unite_imu_method" value="linear_interpolation"/> -->
+    </include>
+
+    <!-- <node pkg="imu_filter_madgwick" type="imu_filter_node" name="ImuFilter">
+        <param name="use_mag" type="bool" value="false" />
+        <param name="_publish_tf" type="bool" value="false" />
+        <param name="_world_frame" type="string" value="enu" />
+        <remap from="/imu/data_raw" to="/camera/imu"/>
+    </node> -->
+
+    <!-- <include file="$(find rtabmap_ros)/launch/rtabmap.launch"> -->
+    <!-- </include> -->
+</launch>
