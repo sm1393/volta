@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
 
-    <remap from="/camera/color/camera_info" to="/camera/rgb/camera_info" />
+    <remap from="/camera/color/camera_info" to="/camera/data_throttled_camera_info" />
     <remap from="/camera/color/image_raw" to="/camera/rgb/image_rect_color" />
     <remap from="/camera/depth/image_rect_raw" to="/camera/depth_registered/image_raw" />
 
